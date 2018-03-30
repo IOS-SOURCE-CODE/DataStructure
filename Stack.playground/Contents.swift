@@ -8,8 +8,8 @@ public struct Stack<T> {
    
    public init(){}
    
-   public init<S: Sequence>(_ s: S) where S.Iterator.Element == T {
-      self.elements = Array(s.reversed())
+   public init<S: Sequence >(_ s: S) where S.Iterator.Element == T {
+      self.elements = Array(s)
    }
    
    public mutating func pop() -> T? {
@@ -54,12 +54,17 @@ extension Stack: ExpressibleByArrayLiteral {
 }
 
 
-extension Stack: Sequence {
-   public func makeIterator() -> ArrayLiterator<T> {
-      return ArrayLiterator<T>(elements: self.elements)
+//extension Stack: Sequence {
+//   public func makeIterator() -> ArrayLiterator<T> {
+//      return ArrayLiterator<T>(elements: self.elements.reversed())
+//   }
+//
+//}
+
+extension Stack : Sequence {
+   public func makeIterator() -> AnyIterator<T> {
+      return AnyIterator<T>(IndexingIterator(_elements: self.elements.lazy.reversed()))
    }
-   
-   
 }
 
 // return iterator
@@ -102,17 +107,21 @@ myStack.push(5)
 myStack.push(44)
 myStack.push(23)
 
-var x = myStack.pop()
-x = myStack.pop()
-x = myStack.pop()
-x = myStack.pop()
+//var x = myStack.pop()
+//x = myStack.pop()
+//x = myStack.pop()
+//x = myStack.pop()
 
-myStack
+print(myStack)
 
 
 
 
 myStackFromStack.push(55)
+
+for s in myStackFromStack {
+   print(s)
+}
 
 
 

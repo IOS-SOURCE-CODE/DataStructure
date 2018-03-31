@@ -8,10 +8,10 @@ public struct Stack<T> {
    
    public init(){}
    
-   public init<S: Sequence >(_ s: S) where S.Iterator.Element == T {
+   public init<S: Sequence>(_ s: S) where S.Iterator.Element == T {
       self.elements = Array(s)
    }
-   
+
    public mutating func pop() -> T? {
       return self.elements.popLast()
    }
@@ -130,7 +130,28 @@ for s in myStackFromStack {
 
 
 
+var i = 10
 
+extension Int: Sequence {
+   
+   public func makeIterator() -> AnyIterator<Int> {
+      return AnyIterator<Int>(IndexingIterator(_elements: [self]))
+   }
+   
+   func toArray() -> Array<Int>  {
+      return Array(self)
+   }
+   
+   func toNormalArray() -> Array<Int> {
+      return Array(self)
+   }
+}
+
+
+print(i.toArray())
+print(i)
+
+i.toNormalArray()
 
 
 

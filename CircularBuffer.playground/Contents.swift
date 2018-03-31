@@ -176,6 +176,12 @@ extension CircularBuffer: MutableCollection {
 }
 
 
+extension CircularBuffer: ExpressibleByArrayLiteral {
+   public init(arrayLiteral elements: T...) {
+      self.init(elements, size: elements.count)
+   }
+}
+
 var circBuffer = CircularBuffer<Int>(4)
 
 

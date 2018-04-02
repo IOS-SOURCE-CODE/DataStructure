@@ -1,4 +1,4 @@
-//: Playground - noun: a place where people can play
+//: Circular Buffer Queue
 
 import Foundation
 
@@ -187,6 +187,34 @@ extension CircularBuffer: ExpressibleByArrayLiteral {
    }
 }
 
+extension CircularBuffer: Sequence {
+   
+   public func makeIterator() -> AnyIterator<T> {
+      var newData = [T]()
+      
+      if count > 0 {
+         newData = [T](repeating: data[head], count: count)
+         if head > tail {
+            let front = data.capacity - head
+            newData[0..<front] = data[head..<data.capacity]
+            
+            if front < count {
+               newData[front + 1..<newData.capacity] = data[0..<count - front]
+            }
+         } else {
+            newData[0..<tail - head] = data[head..<tail]
+         }
+      }
+      return AnyIterator(IndexingIterator(_elements: newData.lazy))
+   }
+}
+
+
+
+//: Usage - Example
+
+
+
 var circBuffer = CircularBuffer<Int>(4)
 
 
@@ -203,15 +231,26 @@ circBuffer.push(element: 134)
 
 let x = circBuffer.pop()
 
-circBuffer.pop()
-circBuffer.pop()
-circBuffer.pop()
-circBuffer.pop()
-circBuffer.pop()
+//circBuffer.pop()
+//circBuffer.pop()
+//circBuffer.pop()
+//circBuffer.pop()
+//circBuffer.pop()
 
-
+circBuffer[0]
 
 print(circBuffer)
+circBuffer.count
+
+for i in 0..<circBuffer.count {
+   print(circBuffer[i])
+}
+
+for value in circBuffer.data {
+  print(circBuffer.tail)
+    print(circBuffer.head)
+   print(value)
+}
 
 circBuffer[0]
 

@@ -27,12 +27,15 @@ public struct CircularBuffer<T> {
    
    
    public init( _ count: Int, overwriteOperation: CircularBufferOperation = .Overwrite) {
+      
       var capacity = count
       if capacity < 1 {
          capacity = Constants.defaultBufferCapacity
       }
       
+      
       if ((capacity & (~capacity + 1 )) != capacity) {
+      
          var b = 1
          while(b < capacity) {
             b = b << 1
@@ -84,8 +87,10 @@ public struct CircularBuffer<T> {
       } else {
          data[tail] = element
       }
+      
       tail = incrementPointer(pointer: tail)
       internalCount += 1
+      
       
    }
    
@@ -185,16 +190,26 @@ extension CircularBuffer: ExpressibleByArrayLiteral {
 var circBuffer = CircularBuffer<Int>(4)
 
 
+
 circBuffer.push(element: 100)
 circBuffer.push(element: 120)
 circBuffer.push(element: 125)
 circBuffer.push(element: 130)
 
-circBuffer.push(element: 130)
-circBuffer.push(element: 130)
-circBuffer.push(element: 130)
+circBuffer.push(element: 131)
+circBuffer.push(element: 132)
+circBuffer.push(element: 133)
+circBuffer.push(element: 134)
 
 let x = circBuffer.pop()
+
+circBuffer.pop()
+circBuffer.pop()
+circBuffer.pop()
+circBuffer.pop()
+circBuffer.pop()
+
+
 
 print(circBuffer)
 

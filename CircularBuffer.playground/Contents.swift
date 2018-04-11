@@ -247,11 +247,7 @@ for i in 0..<circBuffer.count {
 }
 
 for value in circBuffer.data {
-
- 
    print(value)
-   print("head ", circBuffer.head)
-   print("tail ", circBuffer.tail)
 }
 
 circBuffer[0]

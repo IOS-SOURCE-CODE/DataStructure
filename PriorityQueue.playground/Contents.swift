@@ -2,7 +2,7 @@
 
 
 import Foundation
-
+import UIKit
 
 public struct PriorityQueue<T: Comparable> {
    
@@ -42,7 +42,7 @@ public struct PriorityQueue<T: Comparable> {
       if heap.isEmpty { return nil }
       if heap.count == 1 { return heap.removeFirst()  }
       
-      swap(&heap[0], &heap[heap.count - 1])
+      heap.swapAt(0, heap.count - 1)
       let temp = heap.removeLast()
       sink(0)
       return temp
@@ -51,7 +51,7 @@ public struct PriorityQueue<T: Comparable> {
    
    public mutating func remove(_ item: T) {
       if let index = heap.index(of: item) {
-         swap(&heap[index], &heap[heap.count - 1])
+         heap.swapAt(index, heap.count - 1)
          heap.removeLast()
          swim(index)
          sink(index)
@@ -89,8 +89,8 @@ public struct PriorityQueue<T: Comparable> {
          }
          
          if !ordered(heap[index], heap[j]) { break }
-         swap(&heap[index], &heap[j])
-         
+         heap.swapAt(index, j)
+         heap.swapAt((index - 1) / 2, index)
          index = j
       }
    }
@@ -98,7 +98,7 @@ public struct PriorityQueue<T: Comparable> {
    public mutating func swim(_ index: Int) {
       var index = index
       while index > 0 && ordered(heap[(index - 1) / 2], heap[index]) {
-         swap(&heap[(index - 1) / 2], &heap[index])
+         heap.swapAt((index - 1) / 2, index)
          index = (index - 1) / 2
       }
    }
